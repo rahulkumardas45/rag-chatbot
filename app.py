@@ -21,7 +21,7 @@ documents = loader.load()
 
 print(f"Pages Loaded: {len(documents)}")
 
-# Split into chunks
+# Split PDF into chunks
 splitter = RecursiveCharacterTextSplitter(
     chunk_size=500,
     chunk_overlap=50
@@ -36,7 +36,7 @@ embedding = HuggingFaceEmbeddings(
     model_name="sentence-transformers/all-MiniLM-L6-v2"
 )
 
-# Create FAISS vector database
+# Create FAISS vector store
 vectorstore = FAISS.from_documents(
     docs,
     embedding
@@ -72,7 +72,7 @@ while True:
         [doc.page_content for doc in retrieved_docs]
     )
 
-prompt = f"""
+    prompt = f"""
 You are a RAG chatbot.
 
 Answer ONLY from the provided context.
@@ -90,8 +90,8 @@ Question:
 {query}
 """
 
-response = llm.invoke(prompt)
+    response = llm.invoke(prompt)
 
-print("\nAnswer:")
-print(response.content)
-print("-" * 60)
+    print("\nAnswer:")
+    print(response.content)
+    print("-" * 60)
